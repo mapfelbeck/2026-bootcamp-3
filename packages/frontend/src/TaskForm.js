@@ -4,8 +4,6 @@ import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 
 const PRIORITIES = ['P1', 'P2', 'P3'];
-const PRIORITY_COLOR_SELECTED = '#07F2E6';
-const PRIORITY_COLOR_UNSELECTED = '#7A7A7A';
 
 function TaskForm({ onSave, initialTask }) {
   const [title, setTitle] = useState(initialTask?.title || '');
@@ -175,11 +173,11 @@ function TaskForm({ onSave, initialTask }) {
                     textTransform: 'none',
                     borderRadius: 2,
                     boxShadow: 'none',
-                    backgroundColor: selected ? PRIORITY_COLOR_SELECTED : PRIORITY_COLOR_UNSELECTED,
+                    backgroundColor: selected ? 'var(--priority-color-selected)' : 'var(--priority-color-unselected)',
                     color: '#fff',
                     '&:hover': {
                       boxShadow: 'none',
-                      backgroundColor: selected ? PRIORITY_COLOR_SELECTED : '#5a5a5a',
+                      backgroundColor: selected ? 'var(--priority-color-selected)' : '#5a5a5a',
                     },
                   }}
                 >
