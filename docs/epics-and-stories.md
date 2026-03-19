@@ -1,0 +1,100 @@
+## MVP
+
+- Epic: Task Data Model and Validation
+  - Story: Add optional dueDate field to task model
+    - Acceptance Criteria:
+      - Tasks can be created and saved without a due date.
+      - When provided, dueDate is stored as an ISO date string in YYYY-MM-DD format.
+  - Story: Add priority field with P1, P2, and P3 values
+    - Acceptance Criteria:
+      - Priority is limited to the values P1, P2, and P3.
+      - Any non-P1/P2/P3 value is treated as invalid.
+  - Story: Set default priority to P3 for new tasks
+    - Acceptance Criteria:
+      - New tasks created without an explicit priority are assigned P3.
+      - Tasks created with valid explicit priority keep the selected value.
+  - Story: Require title when creating a task
+    - Acceptance Criteria:
+      - A task cannot be created when title is empty or missing.
+      - A task with a non-empty title can be created when other fields are valid.
+  - Story: Ignore invalid dueDate values
+    - Acceptance Criteria:
+      - Invalid dueDate values are not saved as task due dates.
+      - When an invalid dueDate is provided, the task is treated as having no due date.
+
+- Epic: Task Creation and Editing Experience
+  - Story: Add due date input to task form
+    - Acceptance Criteria:
+      - The task form includes a due date input.
+      - The due date input accepts values in YYYY-MM-DD format.
+      - The due date input is optional.
+  - Story: Add priority selector to task form
+    - Acceptance Criteria:
+      - The task form includes a priority selector with options P1, P2, and P3.
+      - If no option is selected by the user, created tasks use P3 by default.
+  - Story: Preserve existing completed toggle behavior
+    - Acceptance Criteria:
+      - Users can still mark tasks completed and incomplete.
+      - Completed state continues to be available to filtering behavior in All, Today, and Overdue views.
+
+- Epic: Date-Based Task Filtering
+  - Story: Add All filter tab
+    - Acceptance Criteria:
+      - An All tab is visible in the filter controls.
+      - Selecting All displays tasks regardless of dueDate and completion state.
+  - Story: Add Today filter tab
+    - Acceptance Criteria:
+      - A Today tab is visible in the filter controls.
+      - Selecting Today applies today-based filtering rules for task display.
+  - Story: Add Overdue filter tab
+    - Acceptance Criteria:
+      - An Overdue tab is visible in the filter controls.
+      - Selecting Overdue applies overdue-based filtering rules for task display.
+  - Story: Show completed and incomplete tasks in All view
+    - Acceptance Criteria:
+      - In All view, completed tasks are shown.
+      - In All view, incomplete tasks are shown.
+  - Story: Hide completed tasks in Today view
+    - Acceptance Criteria:
+      - In Today view, completed tasks are not shown.
+      - In Today view, only incomplete tasks due today are shown.
+  - Story: Hide completed tasks in Overdue view
+    - Acceptance Criteria:
+      - In Overdue view, completed tasks are not shown.
+      - In Overdue view, only incomplete tasks with past due dates are shown.
+
+- Epic: Local Persistence
+  - Story: Persist dueDate and priority in local storage
+    - Acceptance Criteria:
+      - Creating or updating a task stores dueDate and priority in local storage.
+      - No backend or external storage is used to persist these fields.
+  - Story: Load dueDate and priority from local storage on app start
+    - Acceptance Criteria:
+      - On app load, saved tasks restore their dueDate values.
+      - On app load, saved tasks restore their priority values.
+
+## Post-MVP
+
+- Epic: Overdue Task Emphasis
+  - Story: Visually highlight overdue tasks in task list
+    - Acceptance Criteria:
+      - Overdue tasks are visually distinguished from non-overdue tasks.
+      - Highlighting is applied only to tasks identified as overdue.
+
+- Epic: Deterministic Task Sorting
+  - Story: Sort overdue tasks before non-overdue tasks
+    - Acceptance Criteria:
+      - Task lists place overdue tasks before non-overdue tasks.
+      - This ordering is applied consistently whenever sorting is active.
+  - Story: Sort tasks by priority from P1 to P3
+    - Acceptance Criteria:
+      - Within the same overdue status group, tasks sort by priority as P1, then P2, then P3.
+      - Priority order is consistent across renders and filter views.
+  - Story: Sort tasks by due date in ascending order
+    - Acceptance Criteria:
+      - For tasks tied on overdue status and priority, earlier due dates appear before later due dates.
+      - Due date sorting uses ascending calendar order.
+  - Story: Place tasks without due dates at the end of the list
+    - Acceptance Criteria:
+      - Tasks without due dates are listed after tasks with due dates.
+      - Undated tasks remain last when other sort criteria are applied.
