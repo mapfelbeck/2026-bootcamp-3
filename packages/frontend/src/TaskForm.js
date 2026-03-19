@@ -3,10 +3,15 @@ import { TextField, Button, Paper, Typography, Box } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 
+const PRIORITIES = ['P1', 'P2', 'P3'];
+const PRIORITY_COLOR_SELECTED = '#07F2E6';
+const PRIORITY_COLOR_UNSELECTED = '#7A7A7A';
+
 function TaskForm({ onSave, initialTask }) {
   const [title, setTitle] = useState(initialTask?.title || '');
   const [description, setDescription] = useState(initialTask?.description || '');
   const [dueDate, setDueDate] = useState(initialTask?.due_date || '');
+  const [priority, setPriority] = useState(initialTask?.priority || 'P3');
   const [error, setError] = useState(null);
 
   // Helper to normalize date string to YYYY-MM-DD format
@@ -30,10 +35,12 @@ function TaskForm({ onSave, initialTask }) {
       setTitle(initialTask.title || '');
       setDescription(initialTask.description || '');
       setDueDate(normalizeDateString(initialTask.due_date));
+      setPriority(initialTask.priority || 'P3');
     } else {
       setTitle('');
       setDescription('');
       setDueDate('');
+      setPriority('P3');
     }
   }, [initialTask]);
 
@@ -44,10 +51,11 @@ function TaskForm({ onSave, initialTask }) {
       return;
     }
     setError(null);
-    await onSave({ title, description, due_date: dueDate });
+    await onSave({ title, description, due_date: dueDate, priority });
     setTitle('');
     setDescription('');
     setDueDate('');
+    setPriority('P3');
   };
 
   return (
@@ -143,6 +151,44 @@ function TaskForm({ onSave, initialTask }) {
             }
           }}
         />
+        <Box>
+          <Typography variant="caption" sx={{ color: '#616161', fontWeight: 500, mb: 0.5, display: 'block' }}>
+            Priority
+          </Typography>
+          <Box display="flex" gap={1}>
+            {PRIORITIES.map((p) => {
+              const selected = priority === p;
+              return (
+                <Button
+                  key={p}
+                  variant="contained"
+                  size="small"
+                  data-testid={`priority-${p.toLowerCase()}`}
+                  onClick={() => setPriority(p)}
+                  aria-pressed={selected}
+                  sx={{
+                    minWidth: 40,
+                    px: 1.5,
+                    py: 0.5,
+                    fontWeight: 700,
+                    fontSize: '0.75rem',
+                    textTransform: 'none',
+                    borderRadius: 2,
+                    boxShadow: 'none',
+                    backgroundColor: selected ? PRIORITY_COLOR_SELECTED : PRIORITY_COLOR_UNSELECTED,
+                    color: '#fff',
+                    '&:hover': {
+                      boxShadow: 'none',
+                      backgroundColor: selected ? PRIORITY_COLOR_SELECTED : '#5a5a5a',
+                    },
+                  }}
+                >
+                  {p}
+                </Button>
+              );
+            })}
+          </Box>
+        </Box>
         {error && <Typography color="error" sx={{ fontWeight: 500, fontSize: '0.875rem' }}>{error}</Typography>}
         <Box display="flex" gap={2}>
           <Button 
